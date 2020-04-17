@@ -1,6 +1,6 @@
 ---
 title: "Coronavirus in Portugal"
-author: "Humberto Silva"
+author: "\nHumberto Silva"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -41,7 +41,7 @@ df <- coronavirus %>%
     names_from = type,
     values_from = total
   ) %>%
-  # dplyr::mutate(unrecovered = confirmed - ifelse(is.na(recovered), 0, recovered) - ifelse(is.na(death), 0, death)) %>%
+dplyr::mutate(unrecovered = confirmed - ifelse(is.na(recovered), 0, recovered) - ifelse(is.na(death), 0, death)) %>%
   dplyr::mutate(unrecovered = confirmed - ifelse(is.na(death), 0, death)) %>%
   dplyr::arrange(-confirmed) %>%
   dplyr::ungroup() %>%
@@ -61,12 +61,12 @@ df_daily <- coronavirus %>%
   ) %>%
   dplyr::arrange(date) %>%
   dplyr::ungroup() %>%
-  #dplyr::mutate(active = confirmed - death - recovered) %>%
+  dplyr::mutate(active = confirmed - death - recovered) %>%
   dplyr::mutate(active = confirmed - death) %>%
   dplyr::mutate(
     confirmed_cum = cumsum(confirmed),
     death_cum = cumsum(death),
-    # recovered_cum = cumsum(recovered),
+    recovered_cum = cumsum(recovered),
     active_cum = cumsum(active)
   )
 
@@ -92,19 +92,17 @@ valueBox(
 )
 ```
 
+### recovered {.value-box}
 
+```{r}
 
-
-
-
-
-
-
-
-
-
-
-
+valueBox(
+  value = paste(format(sum(df$recovered), big.mark = ","), "", sep = " "),
+  caption = "Recovered cases",
+  icon = "fas fa-heart",
+  color = recovered_color
+)
+```
 
 
 ### death {.value-box}
@@ -115,8 +113,7 @@ valueBox(
   value = paste(format(sum(df$death, na.rm = TRUE), big.mark = ","), " (",
     round(100 * sum(df$death, na.rm = TRUE) / sum(df$confirmed), 1),
     "%)",
-    sep = ""
-  ),
+    sep = ""),
   caption = "Death cases (death rate)",
   icon = "fas fa-heart-broken",
   color = death_color
@@ -217,7 +214,7 @@ Column {data-width=400}
 daily_confirmed <- coronavirus %>%
   dplyr::filter(type == "confirmed") %>%
   dplyr::filter(date >= "2020-02-29") %>%
-  dplyr::filter(date <= "2020-04-13") %>%
+  #dplyr::filter(date <= "2020-04-13") %>%
   dplyr::mutate(country = Country.Region) %>%
   dplyr::group_by(date, country) %>%
   dplyr::summarise(total = sum(cases)) %>%
