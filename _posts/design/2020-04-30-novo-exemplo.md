@@ -19,7 +19,7 @@ image:
 lorem isum dolor
 
 
-### All Header-Styles
+### All posts:
 {: .t60 }
 
 {% include list-posts tag='header' %}
