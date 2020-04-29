@@ -2,13 +2,13 @@
   url: "/"
   side: left
 
-#- title: Getting Started
-  #url: "/getting-started/"
-  #side: left
+- title: About me
+  url: "/aboutme/"
+  side: left
 
 
 - title: "Projects"
-  url: "/headers/"
+  url: "/projects/"
   side: left
   dropdown:
   - title: "Dahboard of Coronavirus in Portugal"
@@ -26,7 +26,7 @@
   #- title: "No Header but Image"
     #url: "/design/no-header-but-image/"
 
-- title: About me
+- title: Documentation
   url: "/documentation/"
   side: left
   dropdown:
