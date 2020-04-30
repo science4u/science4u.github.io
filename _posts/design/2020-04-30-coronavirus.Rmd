@@ -32,7 +32,9 @@ output:
     self_contained: false
 repository_url: https://github.com/science4u/science4u.github.io/tree/master/_posts/design/
 ---
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+
 library(knitr)
 version <- "1.8"
 version_date <- lubridate::ymd("2020-02-28")
