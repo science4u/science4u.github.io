@@ -30,5 +30,5 @@ output:
     toc: true
     toc_depth: 2
     self_contained: false
-repository_url: https://github.com/science4u/science4u.github.io/tree/master/_posts/design/
+repository_url: https://github.com/science4u/science4u.github.io/tree/master/_posts/design/2020-04-30.Rmd
 ---
