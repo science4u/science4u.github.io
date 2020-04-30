@@ -257,7 +257,11 @@ criar um modelo melhor para o caso português, num próximo post.
 # Bibliografia consultada
 
 <https://www.nytimes.com/2020/04/23/world/europe/coronavirus-R0-explainer.html>
+
 <https://covid19.min-saude.pt/relatorio-de-situacao/>
+
 <https://wikiciencias.casadasciencias.org/wiki/index.php/Modelo_SIR_em_epidemiologia>
+
 <https://wwwnc.cdc.gov/eid/article/26/7/20-0282_article>
+
 <https://www.worldometers.info/coronavirus/#repro>
