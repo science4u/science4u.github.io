@@ -15,6 +15,23 @@ image:
     title: sars_cov_2.jpg
     caption: This is a caption for the header image with link
     caption_url: https://unsplash.com/
+
+
+author:
+- name: Humberto Silva 
+   
+creative_commons: CC BY-SA
+date: "2020-04-30"
+base_url: https://science4u.github.io/blog/
+slug: silvahumberto2020covid19
+
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+    self_contained: true
+repository_url: https://github.com/science4u/science4u.github.io/tree/master/_posts/design/
+
 ---
 
 ```{r setup, include=FALSE}
@@ -188,6 +205,7 @@ O modelo pode ser representado por:
   \[\frac{dR}{dt} = \gamma I\]
 
 Inserindo as equações no modelo temos:
+
 ```{r SIR MODEL, include=TRUE}
 SIR <- function(time, state, parameters) {
   par <- as.list(c(state, parameters))
