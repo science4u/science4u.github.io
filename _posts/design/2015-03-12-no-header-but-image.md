@@ -1,28 +1,28 @@
 ---
-layout: page
+  layout: page
 subheadline:  "30-04-2020 - Humberto Silva"
 title:  "Dinâmica do coronavirus em Portugal"
 teaser: "Modelando os dados da epidemia em Portugal com o software R"
 categories:
-    - science
+  - science
 tags:
-    - coronavirus
-    - Portugal
-    - R
-    
-header: yes
+  - coronavirus
+- Portugal
+- R
+
+header: no
 image:
-    title: sars_cov_2.jpg
-    caption: This is a caption for the header image with link
-    caption_url: https://unsplash.com/
-output:
+  title: sars_cov_2.jpg
+caption: This is a caption for the header image with link
+caption_url: https://unsplash.com/
+  output:
   html_document:
-    toc: true
-    number_sections: yes
+  toc: true
+number_sections: yes
 ---
-
-
-```{r setup, include=FALSE}
+  
+  
+  ```{r setup, include=FALSE}
 version <- "1.8"
 version_date <- lubridate::ymd("2020-02-28")
 
@@ -54,9 +54,9 @@ Este post foi feito para fins didacticos e pretende ajudar a entender melhor com
 Antes de mais nada, a minha formação académica é em Química e Biotecnologia, por isso tenho algumas bases científicas, contudo não sou especialista em epidemiologia. Talvez devido a esse facto, resolvi aprender a trabalhar com o software R e aprofundar os meus conhecimentos sobre esta doença. Este trabalho não se destina a fazer nenhuma previsão, nem ser uma ferramenta de tomada de decisões, sendo apenas uma primeira abordagem (imperfeita) de aproximação à realidade, destinando-se apenas a ilustrar alguns conceitos científicos de estatística, epidemiologia e modelação.
 Para a metodologia escolhi usar o software R para os cálculos estatísticos e fazer modelação dos dados.
 Portanto, a primeira pergunta é: 
-
-## “Como é possível aos epidemiologistas estimarem o grau de contágio do vírus e como a epidemia evolui?”
-Para responder a esta questão a abordagem clássica é através de modelos que tentam simular a realidade e assim prever a evolução de uma determinada epidemia, ajudando dessa forma na tomada de decisões informadas sobre estratégias de saúde pública, ou outras, de combate à sua propagação (medidas de quarentena, isolamento social, higienização, vacinação, etc).
+  
+  ## “Como é possível aos epidemiologistas estimarem o grau de contágio do vírus e como a epidemia evolui?”
+  Para responder a esta questão a abordagem clássica é através de modelos que tentam simular a realidade e assim prever a evolução de uma determinada epidemia, ajudando dessa forma na tomada de decisões informadas sobre estratégias de saúde pública, ou outras, de combate à sua propagação (medidas de quarentena, isolamento social, higienização, vacinação, etc).
 
 Existem diversos modelos disponíveis, porém aqui vamos usar o modelo SIR, talvez um dos mais populares (poderá consultar mais informação sobre diversos modelos existentes nesta página https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology). 
 Os dados estatísticos relativos ao número de pessoas infectadas, que usaremos provêm das autoridades oficiais portuguesas, a Direcção Geral de Saúde (DGS), e podem ser consultados aqui (https://covid19.min-saude.pt/relatorio-de-situacao/). As análises adicionais serão minhas.
@@ -67,13 +67,13 @@ A saúde e a economia são duas faces de qualquer epidemia. Por um lado, precisa
 Na minha opinião, numa primeira fase deveremos fazer um esforço para salvar vidas. Portanto, as medidas de isolamento social devem ser tão restritivas quanto as necessárias para evitar o colapso do sistema de saúde, mas também não as poderemos prolongar indefinidamente no tempo ou provocaremos uma crise económica com consequências também graves para a sociedade.
 Numa segunda fase, deveremos retomar as actividades económicas numa situação de maior controlo das variáveis que influenciam a transmissão do vírus (nomeadamente o R0). Uma vez que poderemos ter novamente um aumento de casos quando as medidas de quarentena são levantadas. 
 Quanto à imunidade de grupo, estudos estimam que esta se atinge quando, pelo menos, cerca de 60% da população fica imunizada contra um agente infeccioso (mas ainda decorrem investigações para elucidar esta questão quanto ao caso da Covid19). Enquanto não existir uma vacina ou adquirirmos a imunidade de grupo necessitamos de continuar vigilantes quanto à progressão da doença, daí a necessidade destes modelos, para tomarmos decisões informadas. Surge então a questão seguinte: 
-
-## “Em que fase da epidemia estamos em Portugal agora? “
-
-O primeiro passo será analisarmos os casos confirmados acumulados no tempo e para tal precisamos encontrar uma fonte confiável disponível. Como os dados da DGS estão em arquivos PDF no seu website, precisamos de uma solução melhor para adquirir rapidamente os dados de maneira automática. A solução que podemos usar é recorrer a uma tabela que contenha os mesmos dados mas que está em código html, pelo que recorri à seguinte fonte: https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos ).
+  
+  ## “Em que fase da epidemia estamos em Portugal agora? “
+  
+  O primeiro passo será analisarmos os casos confirmados acumulados no tempo e para tal precisamos encontrar uma fonte confiável disponível. Como os dados da DGS estão em arquivos PDF no seu website, precisamos de uma solução melhor para adquirir rapidamente os dados de maneira automática. A solução que podemos usar é recorrer a uma tabela que contenha os mesmos dados mas que está em código html, pelo que recorri à seguinte fonte: https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos ).
 Com algum código em R podemos selecionar os dados de interesse (código é fornecido em anexo).  Outra solução, será adquirimos os dados em um arquivo (formato csv ou txt) ou inserirmos os mesmos manualmente no código, mas não vou desenvolver este tema mais aqui pois existem diversos tutoriais sobre o software R para quem quiser aprofundar estes conhecimentos. Ter em atenção que caso existam alterações nas páginas de onde retiramos on-line a informação poderemos ter de reajustar o código.
 Então visualizando os dados graficamente: 
-```{r Scraping HTML Tables, include=FALSE}
+  ```{r Scraping HTML Tables, include=FALSE}
 
 # download the wikipedia web page
 
@@ -162,7 +162,7 @@ Date<-seq(as.Date('2020-03-03'), as.Date('2020-12-31'), by = 'days')
 
 Day <- 1:(length(Infected))
 N <- 10000000 # população de Portugal
- 
+
 old <- par(mfrow = c(1, 2))
 plot(Day, Infected, type ="b")
 plot(Day, Infected, log = "y")
@@ -176,24 +176,24 @@ No segundo gráfico parece bastante claro que a curva está a “aplanar”, mos
 
 # Modelação dos dados
 Chegamos então à modelação dos dados com o modelo SIR, cuja ideia básica é bastante simples. Existem três grupos de pessoas: aqueles que são saudáveis, mas susceptíveis à doença (S), os infectados (I) e as pessoas que se recuperaram (R):
-Para modelar a dinâmica do surto, precisamos de três equações diferenciais, uma para a mudança em cada grupo, onde \beta é o parâmetro que controla a transição entre S e I e \gama que controla a transição entre I e R:
-
-![Modelo SIR](https://www.lewuathe.com/assets/img/posts/2020-03-11-covid-19-dynamics-with-sir-model/sir.png "Modelo SIR")
+  Para modelar a dinâmica do surto, precisamos de três equações diferenciais, uma para a mudança em cada grupo, onde \beta é o parâmetro que controla a transição entre S e I e \gama que controla a transição entre I e R:
+  
+  ![Modelo SIR](https://www.lewuathe.com/assets/img/posts/2020-03-11-covid-19-dynamics-with-sir-model/sir.png "Modelo SIR")
 
 
 Source: wikipedia
 
 O modelo pode ser representado por:
-
-
+  
+  
   \[\frac{dS}{dt} = - \frac{\beta I S}{N}\]
 
-  \[\frac{dI}{dt} = \frac{\beta I S}{N}- \gamma I\]
+\[\frac{dI}{dt} = \frac{\beta I S}{N}- \gamma I\]
 
-  \[\frac{dR}{dt} = \gamma I\]
+\[\frac{dR}{dt} = \gamma I\]
 
 Inserindo as equações no modelo temos:
-```{r SIR MODEL, include=TRUE}
+  ```{r SIR MODEL, include=TRUE}
 SIR <- function(time, state, parameters) {
   par <- as.list(c(state, parameters))
   with(par, {
@@ -201,11 +201,11 @@ SIR <- function(time, state, parameters) {
     dI <- beta/N * I * S - gamma * I
     dR <- gamma * I
     list(c(dS, dI, dR))
-    })
+  })
 }
 ```
 Inserimos as equações anteriores no modelo e de seguida precisamos de duas funções: uma para resolver as equações e outra para optmizar. Para a primeira usaremos a função “Ode” do pacote “deSolve” (CRAN) e para a optimização usaremos a ferramenta de base do R, ou seja, um método de minimização da soma da diferença quadrática entre o número de infectados e o número de casos previstos pelo modelo, ao longo do tempo (t):
-
+  
   \[RSS(\beta, \gamma) = \sum_{t} \left( I(t)-\^{I}(t) \right)^2\]
 
 Resolvendo, obtêm-se convergência (indicada pelo software) e os seguintes parâmetros \beta e \gama. 
@@ -215,9 +215,9 @@ Após uma prévia análise exploratória dos dados escolhemos apenas os pontos q
 Escolhemos apenas estes dias porque sabemos da literatura que este modelo não integra as variáveis de distanciamento social que tomamos em Portugal em 16-03-2020, com o fecho das escolas, e depois em 18-03-2020, foi decretado o “Estado de Emergência”, além das medidas de higienização.
 Assim vamos estimar por excesso (obviamente) numa situação hipotética em que nada teria sido feito para evitar a progressão dos contágios. 
 Podemos então fazer a representação gráfica:
-
-
-```{r optimization2, include=FALSE}
+  
+  
+  ```{r optimization2, include=FALSE}
 
 #select data until day 20-03-2020, exponecial growth rate
 
@@ -319,7 +319,7 @@ Infected_exp<-Infected
 
 Day <- 1:(length(Infected))
 N <- 10000000 # população de Portugal
- 
+
 old <- par(mfrow = c(1, 2))
 plot(Day, Infected, type ="b")
 plot(Day, Infected, log = "y")
@@ -333,7 +333,7 @@ SIR <- function(time, state, parameters) {
     dI <- beta/N * I * S - gamma * I
     dR <- gamma * I
     list(c(dS, dI, dR))
-    })
+  })
 }
 
 
@@ -346,27 +346,27 @@ RSS <- function(parameters) {
   fit <- out[ , 3]
   sum((Infected_exp - fit)^2)
 }
- 
+
 Opt <- optim(c(0.5, 0.5), RSS, method = "L-BFGS-B", lower = c(0, 0), upper = c(1, 1)) # optimize with some sensible conditions
 Opt$message
 #[1] "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH"
- 
+
 Opt_par <- setNames(Opt$par, c("beta", "gamma"))
 Opt_par
 #beta     gamma 
 ## 0.6746089 0.3253912
- 
+
 ```
 ```{r pressure, echo=FALSE}
 t <- 1:100 # time in days
 fit <- data.frame(ode(y = init, times = t, func = SIR, parms = Opt_par))
 col <- 1:3 # colour
- 
+
 matplot(fit$time, fit[ , 2:4], type = "l", xlab = "Day", ylab = "Number of subjects", lwd = 2, lty = 1, col = col)
 matplot(fit$time, fit[ , 2:4], type = "l", xlab = "Day", ylab = "Number of subjects", lwd = 2, lty = 1, col = col, log = "y")
 ## Warning in xy.coords(x, y, xlabel, ylabel, log = log): 1 y value <= 0
 ## omitted from logarithmic plot
- 
+
 points(Day, Infected_exp)
 legend("bottomright", c("Susceptibles", "Infecteds", "Recovereds"), lty = 1, lwd = 2, col = col, inset = 0.05)
 title("SIR model COVID19 Portugal", outer = TRUE, line = -2)
@@ -379,20 +379,20 @@ Devemos também ter em conta que uma “curva epidémica” deve ser feita com a
 
 # Estimativa de R0
 Agora poderemos extrair algumas estatísticas importantes. Um dos coeficientes é o chamado número básico de reprodução ou taxa básica de reprodução, R0 (“R nought” em inglês) que mostra basicamente quantas pessoas saudáveis são infectadas por uma pessoa doente em média (número médio de contágios):
-
-
-```{r Estimation R0, include=TRUE}
+  
+  
+  ```{r Estimation R0, include=TRUE}
 par(old)
- 
+
 R0 <- setNames(Opt_par["beta"] / Opt_par["gamma"], "R0")
 R0
 ##       R0 
 ## 1.98384
- 
+
 fit[fit$I == max(fit$I), "I", drop = FALSE] # height of pandemic
 ##            I
 ## 37 616443.4
- 
+
 max(fit$I) * 0.02 # max deaths with supposed 2% fatality rate
 ## [1] 12328.87
 
@@ -401,17 +401,17 @@ max(fit$I) * 0.02 # max deaths with supposed 2% fatality rate
 
 
 Assim, o R0 é estimado em 1,9 na fase inicial da epidemia no país, o que é consistente com o número que muitos pesquisadores e a OMS estimaram sendo aproximado do valor do SARS, Influenza ou Ébola. Existem diversos valores estimados que vão desde 1,4 até 3,5 para este parâmetro (https://www.worldometers.info/coronavirus/#repro). De notar ainda que este R0 vem diminuindo ao longo do tempo passando a designar-se Rt ou Re (R efectivo), senbdo neste momento inferior a 1 segundo a DGS (pode variar de região para região).
-Além disso, de acordo com este modelo, o pico da epidemia seria alcançado em torno de 16-04-2020 (45 dias após o início). Como já referido a curva epidémica deverá ser construída com a data de início de sintomas e não de casos laboratoriais confirmados, pelo que podemos considerar uma média de 7 dias entre o início de sintomas e detecção laboratorial, logo se retirarmos 7 dias, terá sido na primeira semana de Abril, também não muito longe de algumas informações oficiais.
-Neste modelo hipotético a extensão da epidemia seria cerca de 1,5 milhões de pessoas infectadas e cerca de 30000 óbitos (assumindo taxa de mortalidade de 2%), o que claramente está sobrestimado. 
-Como discutido anteriormente, este número está estimado para o pior cenário possível, sem quaisquer medidas, assumindo um modelo deterministico aleatório de transmissão. 
-Isto pode dever-se ao modelo ser demasiado simplista por não incluir as variáveis de distanciamento social e/ou de outras medidas tomadas (portanto, estes números são muito altos). Outro factor que podemos ter é que existem muitos casos assintomáticos e estes nunca foram testados. Só saberemos quantas pessoas estiveram realmente expostas ao vírus através de testes serológicos à população.
- Portanto, não entremos em pânico, vamos tentar criar um modelo melhor para o caso português, num próximo post.
- 
-# Bibliografia consultada
-
-https://www.nytimes.com/2020/04/23/world/europe/coronavirus-R0-explainer.html
-https://covid19.min-saude.pt/relatorio-de-situacao/
-https://wikiciencias.casadasciencias.org/wiki/index.php/Modelo_SIR_em_epidemiologia
-https://wwwnc.cdc.gov/eid/article/26/7/20-0282_article
-https://www.worldometers.info/coronavirus/#repro
-
+                                                                                                                                                                                                                                                                                          Além disso, de acordo com este modelo, o pico da epidemia seria alcançado em torno de 16-04-2020 (45 dias após o início). Como já referido a curva epidémica deverá ser construída com a data de início de sintomas e não de casos laboratoriais confirmados, pelo que podemos considerar uma média de 7 dias entre o início de sintomas e detecção laboratorial, logo se retirarmos 7 dias, terá sido na primeira semana de Abril, também não muito longe de algumas informações oficiais.
+                                                                                                                                                                                                                                                                                        Neste modelo hipotético a extensão da epidemia seria cerca de 1,5 milhões de pessoas infectadas e cerca de 30000 óbitos (assumindo taxa de mortalidade de 2%), o que claramente está sobrestimado. 
+                                                                                                                                                                                                                                                                                        Como discutido anteriormente, este número está estimado para o pior cenário possível, sem quaisquer medidas, assumindo um modelo deterministico aleatório de transmissão. 
+                                                                                                                                                                                                                                                                                        Isto pode dever-se ao modelo ser demasiado simplista por não incluir as variáveis de distanciamento social e/ou de outras medidas tomadas (portanto, estes números são muito altos). Outro factor que podemos ter é que existem muitos casos assintomáticos e estes nunca foram testados. Só saberemos quantas pessoas estiveram realmente expostas ao vírus através de testes serológicos à população.
+                                                                                                                                                                                                                                                                                        Portanto, não entremos em pânico, vamos tentar criar um modelo melhor para o caso português, num próximo post.
+                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                        # Bibliografia consultada
+                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                        https://www.nytimes.com/2020/04/23/world/europe/coronavirus-R0-explainer.html
+                                                                                                                                                                                                                                                                                        https://covid19.min-saude.pt/relatorio-de-situacao/
+                                                                                                                                                                                                                                                                                          https://wikiciencias.casadasciencias.org/wiki/index.php/Modelo_SIR_em_epidemiologia
+                                                                                                                                                                                                                                                                                        https://wwwnc.cdc.gov/eid/article/26/7/20-0282_article
+                                                                                                                                                                                                                                                                                        https://www.worldometers.info/coronavirus/#repro
+                                                                                                                                                                                                                                                                                          
