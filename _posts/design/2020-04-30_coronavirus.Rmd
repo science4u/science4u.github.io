@@ -1,9 +1,21 @@
 ---
-title: "Modelação em R da dinâmica do Coronavirus em Portugal"
-author: "Humberto Silva"
-date: "17/04/2020"
-output: html_document
+layout: page
+subheadline:  "Headers With Style"
+title:  "No Header but Article Image"
+teaser: "Feeling Responsive enables you to get the attention of visitors. If you don't want to use a big header, use an image for the article instead."
+categories:
+    - design
+tags:
+    - design
+    - background color
+    - header
+header: no
+image:
+    title: unsplash_eagle.jpg
+    caption: This is a caption for the header image with link
+    caption_url: https://unsplash.com/
 ---
+
 
 ```{r setup, include=FALSE}
 version <- "1.8"
