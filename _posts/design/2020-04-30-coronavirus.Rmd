@@ -10,15 +10,27 @@ tags:
     - Portugal
     - R
     
-header: yes
+header: no
 image:
     title: sars_cov_2.jpg
     caption: This is a caption for the header image with link
     caption_url: https://unsplash.com/
+
+
+author:
+- name: Humberto Silva 
+   
+creative_commons: CC BY-SA
+date: "2020-04-30"
+base_url: https://science4u.github.io/blog/
+slug: silvahumberto2020covid19
+
 output:
-  html_document:
+  distill::distill_article:
     toc: true
-    number_sections: yes
+    toc_depth: 2
+    self_contained: false
+repository_url: https://github.com/science4u/science4u.github.io/tree/master/_posts/design/
 ---
 
 
