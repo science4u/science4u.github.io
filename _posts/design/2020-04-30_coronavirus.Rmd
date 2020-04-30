@@ -1,17 +1,18 @@
 ---
 layout: page
-subheadline:  "Headers With Style"
-title:  "No Header but Article Image"
+subheadline:  "30-04-2020 - Humberto Silva"
+title:  "Dinâmica do coronavirus em Portugal"
 teaser: "Feeling Responsive enables you to get the attention of visitors. If you don't want to use a big header, use an image for the article instead."
 categories:
-    - design
+    - science
 tags:
-    - design
-    - background color
-    - header
+    - coronavirus
+    - Portugal
+    - R
+    
 header: no
 image:
-    title: unsplash_eagle.jpg
+    title: sars_cov_2.jpg
     caption: This is a caption for the header image with link
     caption_url: https://unsplash.com/
 ---
