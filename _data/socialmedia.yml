@@ -13,30 +13,30 @@
   class: icon-twitter
   title: ""
 
+- name: Facebook
+  url: http://www.facebook.com/humberto.silva2
+  class: icon-facebook
+  title: ""
+
+- name: Instagram
+  url: http://instagram.com/humberto.silva2
+  class: icon-instagram
+  title: ""
+
 #- name: Mixcloud
 #  url: http://www.mixcloud.com/
 #  class: icon-cloud
 #  title: "Mixe, was sonst?"
 
-- name: Phlow YouTube Google+
-  url: https://plus.google.com/u/0/+Phlow
-  class: icon-googleplus
-  title: "YouTube Google+"
-
-# - name: Facebook
-#   url: http://www.facebook.com/
-#   class: icon-facebook
-#   title: ""
+#- name: Phlow YouTube Google+
+  #url: https://plus.google.com/u/0/+Phlow
+  #class: icon-googleplus
+  #title: "YouTube Google+"
 
 # - name: Soundcloud
 #   url: http://soundcloud.com/
 #   class: icon-soundcloud
 #   title: ""
-
-#- name: Instagram
-#   url: http://instagram.com/
-#   class: icon-instagram
-#	title: ""
 
 # - name: Pinterest
 #   url: http://www.pinterest.com/

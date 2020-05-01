@@ -1,4 +1,4 @@
----
+﻿---
 sitemap:
   exclude: true
 ---
@@ -89,6 +89,6 @@ entry {
 	> category,
 	> published,
 	> content {
-		display: none;
+		display: yes;
 	}
 }
