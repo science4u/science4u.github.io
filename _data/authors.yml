@@ -4,11 +4,11 @@
 # 2. Change site author in config.yml
 # 3. Change default post/page authors in config.yml
 #
-# Resource › http://science4u.github.io/
+# Resource › https://science4u.github.io/
 phlow: # replace this with your info
   name: "Humberto"
   siterole: "webmaster, developer, copywriter, designer"
-  uri: http://science4u.github.io/
+  uri: https://science4u.github.io/
 #<<<<<<< HEAD
   email: silvahumberto@hotmail.com
 #=======

@@ -1,30 +1,30 @@
 - name: GitHub
-  url: http://github.com/
+  url: https://github.com/
   class: icon-github
   title: ""
 
 - name: YouTube
-  url: http://www.youtube.com/
+  url: https://www.youtube.com/
   class: icon-youtube
   title: ""
 
 - name: Twitter
-  url: http://twitter.com/
+  url: https://twitter.com/
   class: icon-twitter
   title: ""
 
 - name: Facebook
-  url: http://www.facebook.com/humberto.silva2
+  url: https://www.facebook.com/humberto.silva2
   class: icon-facebook
   title: ""
 
 - name: Instagram
-  url: http://instagram.com/humberto.silva2
+  url: https://instagram.com/humberto.silva2
   class: icon-instagram
   title: ""
 
 #- name: Mixcloud
-#  url: http://www.mixcloud.com/
+#  url: https://www.mixcloud.com/
 #  class: icon-cloud
 #  title: "Mixe, was sonst?"
 
@@ -35,18 +35,18 @@
   #title: "YouTube Google+"
 #=======
 #- name: Facebook
-  #url: http://www.facebook.com/
+  #url: https://www.facebook.com/
   #class: icon-facebook
   #title: ""
 #>>>>>>> 7aae0e7bfe61d1d298209c18871a5054fbe0d23d
 
 # - name: Soundcloud
-#   url: http://soundcloud.com/
+#   url: https://soundcloud.com/
 #   class: icon-soundcloud
 #   title: ""
 
 # - name: Pinterest
-#   url: http://www.pinterest.com/
+#   url: https://www.pinterest.com/
 #   class: icon-pinterest
 #   title: ""
 
