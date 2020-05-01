@@ -188,7 +188,7 @@ To model the dynamics of the outbreak, we need three differential equations, one
 
 Source: wikipedia
 
-O modelo pode ser representado por:
+The model can be expressed as follows:
 
 
   \[\frac{dS}{dt} = - \frac{\beta I S}{N}\]
@@ -198,7 +198,7 @@ O modelo pode ser representado por:
   \[\frac{dR}{dt} = \gamma I\]
 
 
-Inserindo as equações no modelo temos:
+
 
 ```{r SIR MODEL, include=TRUE}
 
