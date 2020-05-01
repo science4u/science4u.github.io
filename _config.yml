@@ -177,7 +177,8 @@ msapplication_tilecolor:                '#fabb00'
 #      / ____/___ _________  / /_  ____  ____  / /__
 #     / /_  / __ `/ ___/ _ \/ __ \/ __ \/ __ \/ //_/
 #    / __/ / /_/ / /__/  __/ /_/ / /_/ / /_/ / ,<
-#   /_/    \__,_/\___/\___/_.___/\____/\____/_/|_|      Facebook-Optimization › http://j.mp/fb_optimize
+#   /_/    \__,_/\___/\___/_.___/\____/\____/_/|_|      
+Facebook-Optimization › http://j.mp/fb_optimize
 
 og_image:                           'http://images.phlow.de/phlow/phlow_de-logo-512x.png'
 og_locale:                          'en_EN'
@@ -194,8 +195,8 @@ og_type:                            'website'
 #
 
 socialmedia:
-    twitter: phlow
-    facebook: phlow.media
+    twitter: www.twitter.com
+    facebook: www.facebook.com
 
 
 #        ____  _

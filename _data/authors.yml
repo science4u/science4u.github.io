@@ -9,6 +9,10 @@ phlow: # replace this with your info
   name: "Humberto"
   siterole: "webmaster, developer, copywriter, designer"
   uri: http://science4u.github.io/
+<<<<<<< HEAD
   email: silvahumberto@hotmail.com
+=======
+  email: silvahumberto@hotmail.com 
+>>>>>>> 7aae0e7bfe61d1d298209c18871a5054fbe0d23d
   twitter: "@science4u"
 # you can add more authors here

@@ -28,10 +28,17 @@
 #  class: icon-cloud
 #  title: "Mixe, was sonst?"
 
+<<<<<<< HEAD
 #- name: Phlow YouTube Google+
   #url: https://plus.google.com/u/0/+Phlow
   #class: icon-googleplus
   #title: "YouTube Google+"
+=======
+- name: Facebook
+  url: http://www.facebook.com/
+  class: icon-facebook
+  title: ""
+>>>>>>> 7aae0e7bfe61d1d298209c18871a5054fbe0d23d
 
 # - name: Soundcloud
 #   url: http://soundcloud.com/
