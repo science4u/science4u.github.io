@@ -1,5 +1,7 @@
 Dinâmica do coronavirus em Portugal
 ================
+Humberto Silva
+01/05/2020
 
 ## Introdução
 
