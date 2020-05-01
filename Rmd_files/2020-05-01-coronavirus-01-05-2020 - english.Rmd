@@ -1,0 +1,430 @@
+---
+author:
+- name: Humberto Silva 
+title: "Coronavirus dynamics modeling in Portugal"
+   
+creative_commons: CC BY-SA
+date: "2020-05-01"
+base_url: https://science4u.github.io/blog/
+slug: silvahumberto2020covid19
+twitter:
+  creator: "@Humbert53653917"
+
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 2
+    self_contained: true
+repository_url: https://github.com/science4u/science4u.github.io/tree/master/Rmd_files
+
+---
+
+
+```{r setup, include=FALSE}
+version <- "1.8"
+version_date <- lubridate::ymd("2020-02-28")
+
+knitr::opts_chunk$set(echo = FALSE, cache=TRUE,
+                      tidy.opts=list(width.cutoff=60),
+                      tidy=TRUE)
+library(tidyverse)
+library(magrittr)
+library(lubridate)
+library(tibble)
+library(ggplot2)
+library(ggthemes)
+library(hrbrthemes)
+library(rvest)
+library(gt)
+library(deSolve)
+library(EpiEstim)
+library(incidence)
+library(distcrete)
+library(epitrix)
+library(projections)
+library(formatR)
+
+```
+
+![Fonte: https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSPEBv1RiYMEaA9pGoXRP-8KyHHyiwOwIW_CNHl51Sd6uFkMhD4&usqp=CAU](https://github.com/science4u/science4u.github.io/blob/master/images/sars_cov_2.jpg?raw=true )
+
+
+## Introduction
+
+This post was made for didactic purposes and aims to describe and elucidate how it is possible to build a mathematical model to study the evolution of Covid19 disease, caused by the SARS-CoV-2 virus, and apply this model to the Portuguese case. It came about after some research and reading the following post https://blog.ephorie.de/epidemiology-how-contagious-is-novel-coronavirus-2019-ncov?fbclid=IwAR35_eyO1Ry6Bru04WKKPNv7mxt5rhNT_liU6QlEqJH-xx. First of all, my academic background is in Chemistry and Biotechnology, so I have some scientific bases, however I am not a specialist in epidemiology. Perhaps due to that fact, I decided to learn to work with the R software and to deepen my knowledge about this disease. This work is not intended to make any predictions, nor is it a decision-making tool, it is only a first (imperfect) approach to approaching reality, and is only intended to illustrate some scientific concepts of statistics, epidemiology and modeling. For the methodology I chose to use the R software for statistical calculations and do data modeling. So the first question is:
+
+## "How is it possible for epidemiologists to estimate the degree of contagion of the virus and how the epidemic evolves?"
+
+To answer this question, the classic approach is through models that try to simulate reality and thus predict the evolution of a given epidemic, thereby helping to make informed decisions about public health strategies, or others, to combat its spread ( quarantine measures, social isolation, hygiene, vaccination, etc.).
+
+There are several models available, but here we will use the SIR model, perhaps one of the most popular (you can find more information about several existing models on this page https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology ). The statistical data on the number of infected people, which we will use, comes from the official Portuguese authorities, the General Directorate of Health (DGS), and can be consulted here ( https://covid19.min-saude.pt/relatorio-de-situacao / ). The additional analyzes will be mine.
+
+## "Why is it so important to create models?"
+
+Health and the economy are two sides of any epidemic. 
+
+On one hand, we need to save lives and, on the another, we need to maintain our jobs, social services and all the activities we need to survive (agriculture, industry, services and others), so we need to achieve a balance between health and the economy. 
+
+In my opinion, in the first phase we should make an effort to save lives, therefore, social isolation measures must be as restrictive as necessary to prevent the collapse of the health system, but neither can we prolong them indefinitely over time or cause an economic crisis with serious consequences for society as well. 
+
+In a second phase, we should start economic activities in a situation of greater control over the variables that influence the transmission of the virus (namely R0). Since we may see an increase in cases again when quarantine measures are lifted. 
+
+As for group immunity, studies estimate that this is achieved when at least about 60% of the population is immunized against an infectious agent (but investigations are still ongoing to elucidate this issue regarding the case of Covid19). 
+As long as a vaccine does not exist, or even better treatment drugs, or we acquire group immunity, we need to remain vigilant as to the progression of the disease, hence the need for these models, to make informed decisions. The following question then arises: 
+ 
+
+## “What stage of the epidemic are we in Portugal now? “
+
+The first step will be to analyze the confirmed cases accumulated over time and for that we need to find a reliable source available. As DGS data is in PDF files on your website, we need a better solution to quickly acquire data automatically. The solution we can use is to use a table that contains the same data but that is in html code, so I used the following source: https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7 % C3% A3o_dos_casos). With some code in R we can select the data of interest (code is provided in the attachment). Another solution will be to acquire the data in a file ("csv" or "txt" format) or to enter it manually in the code. I will not develop this topic here anymore because there are several tutorials on the R software for those who want to deepen this knowledge.
+
+Please note that if there are changes to the pages from which we retrieve the information online, we may have to readjust the code. Then visualizing the data graphically:
+
+```{r Scraping HTML Tables, include=FALSE}
+
+# download the wikipedia web page
+
+# we use a specific version of the template page directly
+# version of the wikipedia page that is used by this version of this document
+portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+
+# unversioned page
+# portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+portuguese_outbreak_webpage <- read_html(portuguese_wikipedia_data_url)
+
+# read tables
+tbls <- html_nodes(portuguese_outbreak_webpage, "table")
+
+head(tbls)
+
+tbls_ls <- portuguese_outbreak_webpage %>%
+  html_nodes("table") %>%
+  .[5:6] %>%
+  html_table(fill = TRUE)
+
+# verification of the parameters of the table
+str(tbls_ls)
+head (tbls_ls)
+
+
+# remove row 1 that includes part of the headings
+tbls_ls[[1]] <- tbls_ls[[1]][-2]
+
+# remove row 1 that includes part of the headings
+
+tbls_ls[[1]]<- tbls_ls[[2]][-1,]
+tbls_ls[[1]]
+
+#last_date_j <- ymd("2020-03-01")
+
+# download the wikipedia web page
+
+# we use a specific version of the template page directly
+# version of the wikipedia page that is used by this version of this document
+portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+
+# unversioned page
+# portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+portuguese_outbreak_webpage <- read_html(portuguese_wikipedia_data_url)
+
+# read tables
+tbls <- html_nodes(portuguese_outbreak_webpage, "table")
+
+#head(tbls)
+
+tbls_ls <- portuguese_outbreak_webpage %>%
+  html_nodes("table") %>%
+  .[5:6] %>%
+  html_table(fill = TRUE)
+
+# verification of the parameters of the table
+#str(tbls_ls)
+#head (tbls_ls)
+
+# remove row 1 that includes part of the headings
+tbls_ls[[1]] <- tbls_ls[[1]][-2]
+
+# remove row 1 that includes part of the headings
+
+tbls_ls[[1]]<- tbls_ls[[2]][-1,]
+tbls_ls[[1]]
+
+# rename table headings
+colnames(tbls_ls[[1]]) <- c("Date", "Confirmed Cases")
+
+#atribute values
+Infected<-tbls_ls[[1]]$`Confirmed Cases`
+
+#convert date in Char to date format
+
+Date <-tbls_ls[[1]]$`Date`
+
+Date<-seq(as.Date('2020-03-03'), as.Date('2020-12-31'), by = 'days') 
+
+#Date <- as_tibble(Date)
+```
+
+```{r infected}
+#Inseri os valores de Portugal até dia 17-04-2020:
+
+Day <- 1:(length(Infected))
+N <- 10000000 # população de Portugal
+ 
+old <- par(mfrow = c(1, 2))
+plot(Day, Infected, type ="b")
+plot(Day, Infected, log = "y")
+#abline(lm(log10(Infected) ~ Dia))
+title("Cumulative confirmed cases 2020-Portugal", outer = TRUE, line = -2)
+```
+
+
+The graph on the left is the cumulative total of people infected over time (in days since the beginning of the first detected case) and on the right the same graph, but with a logarithmic scale on the y-axis (a log-linear graph). In the second graph it seems quite clear that the curve is “flattening out”, showing that in Portugal at the present time we have finished exponential growth, that is, the growth rate is much slower now. Seems we reach the peak for now. We will see this issue in more detail later.
+
+# Data modeling
+We then arrived at the data modeling with the SIR model, whose basic idea is quite simple. There are three groups of people: those who are healthy but susceptible to disease (S), those infected (I) and people who have recovered (R)-
+To model the dynamics of the outbreak, we need three differential equations, one for change in each group, where it is the parameter that controls the transition between S and I and that controls the transition between I and R:
+
+![Modelo SIR](https://www.lewuathe.com/assets/img/posts/2020-03-11-covid-19-dynamics-with-sir-model/sir.png "Modelo SIR")
+
+
+Source: wikipedia
+
+O modelo pode ser representado por:
+
+
+  \[\frac{dS}{dt} = - \frac{\beta I S}{N}\]
+
+  \[\frac{dI}{dt} = \frac{\beta I S}{N}- \gamma I\]
+
+  \[\frac{dR}{dt} = \gamma I\]
+
+
+Inserindo as equações no modelo temos:
+
+```{r SIR MODEL, include=TRUE}
+
+SIR <- function(time, state, parameters) {
+  par <- as.list(c(state, parameters))
+  with(par, {
+    dS <- -beta/N * I * S
+    dI <- beta/N * I * S - gamma * I
+    dR <- gamma * I
+    list(c(dS, dI, dR))
+    })
+}
+```
+After the previous equations inserted in the model, we need two functions: one to solve the equations and another to optmize. For the first, we will use the “Ode” function of the “deSolve” package (CRAN) and for optimization we will use the basic R tool software, that is, a method of minimizing the sum of the quadratic difference between the number of infected, I(t), and the number of cases predicted by the model, I*(t), over time:
+
+  \[RSS(\beta, \gamma) = \sum_{t} \left( I(t)-{I^*}(t) \right)^2\]
+
+Solving, convergence (indicated by the software) and the following parameters β and γ. 
+
+After a previous exploratory analysis of the data, we chosed only the points that belong to an exponential growth phase until 20-03-2010.
+We only chose these days because we know from the literature that this model does not integrate the social distancing variables that we start in Portugal on 16-03-2020, with the closure of schools, and then on 18-03-2020, the “State of Emergency ”, in addition to hygiene measures. 
+So we will estimate by excess (obviously) in a hypothetical situation in which nothing would have been done to prevent the progression of contagions. We can then make the graphic representation:
+
+```{r optimization2, include=FALSE}
+
+#scraping data: select data until day 20-03-2020, exponecial growth rate
+
+
+# download the wikipedia web page
+
+# we use a specific version of the template page directly
+# version of the wikipedia page that is used by this version of this document
+portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+
+# unversioned page
+# portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+portuguese_outbreak_webpage <- read_html(portuguese_wikipedia_data_url)
+
+# read tables
+tbls <- html_nodes(portuguese_outbreak_webpage, "table")
+
+head(tbls)
+
+tbls_ls <- portuguese_outbreak_webpage %>%
+  html_nodes("table") %>%
+  .[5:6] %>%
+  html_table(fill = TRUE)
+
+# verification of the parameters of the table
+str(tbls_ls)
+head (tbls_ls)
+#até aqui funciona!!
+
+# remove row 1 that includes part of the headings
+tbls_ls[[1]] <- tbls_ls[[1]][-2]
+
+# remove row 1 that includes part of the headings
+
+tbls_ls[[1]]<- tbls_ls[[2]][-1,]
+tbls_ls[[1]]
+
+# download the wikipedia web page
+
+# we use a specific version of the template page directly
+# version of the wikipedia page that is used by this version of this document
+portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+
+# unversioned page
+# portuguese_wikipedia_data_url <- "https://pt.wikipedia.org/wiki/Pandemia_de_COVID-19_em_Portugal#Evolu%C3%A7%C3%A3o_dos_casos"
+portuguese_outbreak_webpage <- read_html(portuguese_wikipedia_data_url)
+
+# read tables
+tbls <- html_nodes(portuguese_outbreak_webpage, "table")
+
+#head(tbls)
+
+tbls_ls <- portuguese_outbreak_webpage %>%
+  html_nodes("table") %>%
+  .[5:6] %>%
+  html_table(fill = TRUE)
+
+# verification of the parameters of the table
+#str(tbls_ls)
+#head (tbls_ls)
+
+# remove row 1 that includes part of the headings
+tbls_ls[[1]] <- tbls_ls[[1]][-2]
+
+# remove row 1 that includes part of the headings
+
+tbls_ls[[1]]<- tbls_ls[[2]][-1,]
+
+
+# rename table headings
+colnames(tbls_ls[[1]]) <- c("Date", "Confirmed Cases")
+
+#atribute values
+Infected<-tbls_ls[[1]]$`Confirmed Cases`
+
+#convert date in Char to date format
+
+Date <-tbls_ls[[1]]$`Date`
+
+Date<-seq(as.Date('2020-03-03'), as.Date('2020-03-20'), by = 'days') 
+
+Infected<-Infected[1:18]
+
+#tbls_ls[[1]]$`Date`<- Date
+
+#select data until day 20-03-2020, exponecial growth rate
+data.frame<-data.frame(Date,Infected)
+
+Infected<-data.frame[data.frame$Infected <=1220, ]
+
+Date<-data.frame$Date
+
+Infected<-data.frame$Infected
+
+#atribute values without intervention or social distancing
+Infected_exp<-Infected
+
+#Inseri os valores de Portugal até dia 20-03-2020:
+
+Day <- 1:(length(Infected))
+N <- 10000000 # população de Portugal
+ 
+old <- par(mfrow = c(1, 2))
+plot(Day, Infected, type ="b")
+plot(Day, Infected, log = "y")
+#abline(lm(log10(Infected) ~ Dia))
+title("Cumulative confirmed cases 2020-Portugal", outer = TRUE, line = -2)
+
+SIR <- function(time, state, parameters) {
+  par <- as.list(c(state, parameters))
+  with(par, {
+    dS <- -beta/N * I * S
+    dI <- beta/N * I * S - gamma * I
+    dR <- gamma * I
+    list(c(dS, dI, dR))
+    })
+}
+
+
+
+#library(deSolve)
+init <- c(S = N-Infected_exp[1], I = Infected_exp[1], R = 0)
+RSS <- function(parameters) {
+  names(parameters) <- c("beta", "gamma")
+  out <- ode(y = init, times = Day, func = SIR, parms = parameters)
+  fit <- out[ , 3]
+  sum((Infected_exp - fit)^2)
+}
+ 
+Opt <- optim(c(0.5, 0.5), RSS, method = "L-BFGS-B", lower = c(0, 0), upper = c(1, 1)) # optimize with some sensible conditions
+Opt$message
+#[1] "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH"
+ 
+Opt_par <- setNames(Opt$par, c("beta", "gamma"))
+Opt_par
+#beta     gamma 
+## 0.6746089 0.3253912
+ 
+```
+```{r pressure, echo=FALSE}
+t <- 1:100 # time in days
+fit <- data.frame(ode(y = init, times = t, func = SIR, parms = Opt_par))
+col <- 1:3 # colour
+ 
+matplot(fit$time, fit[ , 2:4], type = "l", xlab = "Day", ylab = "Number of subjects", lwd = 2, lty = 1, col = col)
+matplot(fit$time, fit[ , 2:4], type = "l", xlab = "Day", ylab = "Number of subjects", lwd = 2, lty = 1, col = col, log = "y")
+## Warning in xy.coords(x, y, xlabel, ylabel, log = log): 1 y value <= 0
+## omitted from logarithmic plot
+ 
+points(Day, Infected_exp)
+legend("bottomright", c("Susceptibles", "Infecteds", "Recovereds"), lty = 1, lwd = 2, col = col, inset = 0.05)
+title("SIR model COVID19 Portugal", outer = TRUE, line = -2)
+```
+
+
+Observing the graphs as predicted in the first stage of the epidemic, we have a good adjustment of the real data to the curve predicted by the model. Thus, we have a first approximation to reality and we can estimate some coefficients. In a next post we will try to use a more realistic model to model all the data. 
+
+We must also take into account that an “epidemic curve” must be made with the “symptom onset dates” (as we can see in the official bulletins) and here we are using confirmed cases because we do not have other data. Another factor is that the quality of the data is very important for the quality of the model.
+
+# Estimated R0
+Now we can extract some important statistics. One of the coefficients is the so-called basic reproduction number or basic reproduction rate, R0 (“R naught” in English) which basically shows how many healthy people are in average infected by a sick person (average number of the contagions):
+
+
+```{r Estimation R0, include=TRUE}
+par(old)
+ 
+R0 <- setNames(Opt_par["beta"] / Opt_par["gamma"], "R0")
+R0
+##       R0 
+## 1.98384
+ 
+fit[fit$I == max(fit$I), "I", drop = FALSE] # height of pandemic
+##            I
+## 37 616443.4
+ 
+max(fit$I) * 0.02 # max deaths with supposed 2% fatality rate
+## [1] 12328.87
+
+```
+
+
+
+Thus, R0 is estimated at 1.9 in the initial phase of the epidemic in the country, which is consistent with the number that many researchers and WHO have estimated being close to the value of SARS, Influenza or Ebola. There are several estimated values ranging from 1.4 to 3.5 for this parameter ( https://www.worldometers.info/coronavirus/#repro). 
+We can compare this value with other common infectious diseases in humans in the following graph:
+
+![Source: Data from CDC and WHO, image available in: https://transportgeography.org/wp-content/uploads/reproduction_number_diseases.png](https://transportgeography.org/wp-content/uploads/reproduction_number_diseases.png )
+
+It should also be noted that this R0 has been decreasing over time and is now called Rt or Re (effective R), at the moment being less than 1 according to DGS (it may vary from region to region). In addition, according to this model, the peak of the epidemic would be reached around 16-04-2020 (45 days after onset). As already mentioned, the epidemic curve should be constructed with the date of onset of symptoms and not confirmed laboratory cases, so we can consider an average of 7 days between the onset of symptoms and laboratory detection, so if we withdraw 7 days, it will have been at first week of April, also not far from some official information.
+
+In this hypothetical model, the extent of the epidemic would be about 1.5 million infected people and about 30,000 deaths (assuming a 2% mortality rate), which is clearly overestimated. As discussed earlier, this number is estimated for the worst case scenario, without any measures, assuming a random deterministic model of transmission.
+
+This may be due to the model being too simplistic because it does not include the variables of social distance and / or other measures taken, therefore, these numbers are very high. Another factor that we can have many asymptomatic cases and these have never been tested. We will only know how many people were actually exposed to the virus through serological tests on the population. 
+So, let's not panic, we will try to create a better model for the Portuguese case, in a next post.
+ 
+# Consulted bibliography
+
+https://www.nytimes.com/2020/04/23/world/europe/coronavirus-R0-explainer.html
+https://covid19.min-saude.pt/relatorio-de-situacao/
+https://wikiciencias.casadasciencias.org/wiki/index.php/Modelo_SIR_em_epidemiologia
+https://wwwnc.cdc.gov/eid/article/26/7/20-0282_article
+https://www.worldometers.info/coronavirus/#repro
+https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(20)30212-9/fulltext
+https://timchurches.github.io/blog/
+
+
