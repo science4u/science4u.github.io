@@ -11,7 +11,7 @@ tags:
     - header
 header: no
 image:
-    title: unsplash_eagle.jpg
+    title: sars_cov_2.jpg
     caption: This is a caption for the header image with link
     caption_url: https://unsplash.com/
 ---
