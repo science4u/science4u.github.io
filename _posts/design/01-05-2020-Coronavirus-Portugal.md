@@ -1,4 +1,4 @@
-﻿---
+---
 layout: page
 subheadline:  "Headers With Style"
 title:  "No Header but Article Image"
