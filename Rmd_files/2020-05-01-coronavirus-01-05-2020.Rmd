@@ -409,7 +409,7 @@ max(fit$I) * 0.02 # max deaths with supposed 2% fatality rate
 
 Assim, o R0 é estimado em 1,9 na fase inicial da epidemia no país, o que é consistente com o número que muitos pesquisadores e a OMS estimaram sendo aproximado do valor do SARS, Influenza ou Ébola. Existem diversos valores estimados que vão desde 1,4 até 3,5 para este parâmetro (https://www.worldometers.info/coronavirus/#repro).
 
-Podemos ter uma ideia das principais doeenças infecciosas que existem se seguinte gráfico.
+Podemos ter uma ideia das principais doenças infecciosas que existem no seguinte gráfico:
 
 ![Fonte: Dados CDC e WHO, imagem disponível em: https://transportgeography.org/wp-content/uploads/reproduction_number_diseases.png](https://transportgeography.org/wp-content/uploads/reproduction_number_diseases.png )
 
@@ -421,7 +421,7 @@ Como discutido anteriormente, este número está estimado para o pior cenário p
 
 Isto pode dever-se ao modelo ser demasiado simplista por não incluir as variáveis de distanciamento social e/ou de outras medidas tomadas portanto, estes números são muito altos. 
 
-Outro factor que podemos ter é que existem muitos casos assintomáticos e estes nunca foram testados. Só saberemos quantas pessoas estiveram realmente expostas ao vírus através de testes serológicos à população.
+Outro factor que poderemos ter é que existem muitos casos assintomáticos e estes nunca foram testados. Só saberemos quantas pessoas estiveram realmente expostas ao vírus através de testes serológicos à população.
 Portanto, não entremos em pânico, vamos tentar melhorar este modelo para o caso português, num próximo post.
  
 # Bibliografia consultada
