@@ -15,11 +15,11 @@ widget1:
 widget2:
   title: "Projects"
   url: 'http://science4u.github.io/Projects'
-  text: '<em>Science4U</em> is heavily customizable.<br/>1. Language-Support :)<br/>2. Optimized for speed and it&#39;s responsive.<br/>3. Built on <a href="http://foundation.zurb.com/">Foundation Framework</a>.<br/>4. Seven different Headers.<br/>5. Customizable navigation, footer,...'
-  video: '<a href="#" data-reveal-id="videoModal"><img src="http://phlow.github.io/feeling-responsive/images/start-video-feeling-responsive-302x182.jpg" width="302" height="182" alt=""/></a>'
+  text: '<em>Science4U</em> 1.<br/>2.<br/>3.<br/>4.'
+  video: '<a href="#" data-reveal-id="videoModal"><img src="http://science4u.github.io/images/start-video-feeling-responsive-302x182.jpg" width="302" height="182" alt=""/></a>'
 widget3:
   title: "About me"
-  url: 'https://github.com/aboutme'
+  url: 'https://science4u.github.io/aboutme'
   image: widget-github-303x182.jpg
   text: '<em>Science4U</em> is free and licensed under a MIT License.'
 #
@@ -46,7 +46,7 @@ homepage: true
 
 <div id="videoModal" class="reveal-modal large" data-reveal="">
   <div class="flex-video widescreen vimeo" style="display: block;">
-    <iframe width="1280" height="720" src="https://www.youtube.com/embed/3b5zCFSmVvU" frameborder="0" allowfullscreen></iframe>
+    <iframe width="1280" height="720" src="https://www.youtube.com/watch?v=BtN-goy9VOY" frameborder="0" allowfullscreen></iframe>
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
