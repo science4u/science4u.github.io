@@ -9,14 +9,14 @@ header:
   image_fullwidth: header_unsplash_12.jpg
 widget1:
   title: "Blog & Portfolio"
-  url: 'http://science4u.github.io/blog/'
+  url: 'https://science4u.github.io/blog/'
   image: widget-1-302x182.jpg
   text: 'In progress <em>Science4U</em> take a look in latest posts.'
 widget2:
   title: "Projects"
-  url: 'http://science4u.github.io/projects/'
+  url: 'https://science4u.github.io/projects/'
   text: '<em>Science4U</em> 1.<br/>2.<br/>3.<br/>4.'
-  video: '<a href="#" data-reveal-id="videoModal"><img src="http://science4u.github.io/images/start-video-feeling-responsive-302x182.jpg" width="302" height="182" alt=""/></a>'
+  video: '<a href="#" data-reveal-id="videoModal"><img src="https://science4u.github.io/images/start-video-feeling-responsive-302x182.jpg" width="302" height="182" alt=""/></a>'
 widget3:
   title: "About me"
   url: 'https://science4u.github.io/aboutme'
