@@ -14,7 +14,7 @@ widget1:
   text: 'In progress <em>Science4U</em> take a look in latest posts.'
 widget2:
   title: "Projects"
-  url: 'http://science4u.github.io/Projects'
+  url: 'http://science4u.github.io/projects/'
   text: '<em>Science4U</em> 1.<br/>2.<br/>3.<br/>4.'
   video: '<a href="#" data-reveal-id="videoModal"><img src="http://science4u.github.io/images/start-video-feeling-responsive-302x182.jpg" width="302" height="182" alt=""/></a>'
 widget3:
@@ -33,7 +33,7 @@ widget3:
 # To change colors see sass/_01_settings_colors.scss ----->>>> COLOUR
 #
 callforaction:
-  url: https://tinyletter.com/feeling-responsive
+  url: https://tinyletter.com/
   text: Inform me about new updates and features ›
   style: alert
 permalink: /index.html
@@ -46,7 +46,7 @@ homepage: true
 
 <div id="videoModal" class="reveal-modal large" data-reveal="">
   <div class="flex-video widescreen vimeo" style="display: block;">
-    <iframe width="1280" height="720" src="https://www.youtube.com/watch?v=BtN-goy9VOY" frameborder="0" allowfullscreen></iframe>
+    <iframe width="1280" height="720" src="https://youtu.be/BtN-goy9VOY" frameborder="0" allowfullscreen></iframe>
   </div>
   <a class="close-reveal-modal">&#215;</a>
 </div>
