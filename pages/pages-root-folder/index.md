@@ -9,7 +9,7 @@ header:
   image_fullwidth: header_unsplash_12.jpg
 widget1:
   title: "Blog & Portfolio"
-  url: 'http://science4u.github.io/feeling-responsive/blog/'
+  url: 'http://science4u.github.io/science4u/blog/'
   image: widget-1-302x182.jpg
   text: 'In progress <em>Science4U</em> take a look in latest posts.'
 widget2:
