@@ -420,7 +420,7 @@ Now we can extract some important statistics. One of the coefficients is the so-
 par(old)
  
 R0 <- setNames(Opt_par["beta"] / Opt_par["gamma"], "R0")
-
+R0
 
 fit[fit$I == max(fit$I), "I", drop = FALSE] # height of pandemic
 
